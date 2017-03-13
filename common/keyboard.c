@@ -175,6 +175,9 @@ static enum scancode_set_list acting_code_set(enum scancode_set_list set)
 	return set;
 }
 
+static int8_t lctrl_down = 0;
+static int8_t lalt_down = 0;
+static int8_t cad_pressed = 0;
 
 static enum ec_error_list matrix_callback(int8_t row, int8_t col,
 					  int8_t pressed,
@@ -195,14 +198,33 @@ static enum ec_error_list matrix_callback(int8_t row, int8_t col,
 	*len = 0;
 
 	code_set = acting_code_set(code_set);
+	
+	if (row == 2 && col == 0)
+		lctrl_down = pressed;
+	if (row == 6 && col == 10)
+		lalt_down = pressed;
 
 	switch (code_set) {
 	case SCANCODE_SET_1:
 		make_code = scancode_set1[row][col];
+		if (lctrl_down && lalt_down && pressed && make_code == 0x000e) {
+			cad_pressed = 1;
+			make_code = 0xe053;
+		} else if (cad_pressed && make_code == 0x000e) {
+			cad_pressed = 0;
+			make_code = 0xe053;
+		};
 		break;
 
 	case SCANCODE_SET_2:
 		make_code = scancode_set2[row][col];
+		if (lctrl_down && lalt_down && pressed && make_code == 0x0066) {
+			cad_pressed = 1;
+			make_code = 0xe071;
+		} else if (cad_pressed && make_code == 0x0066) {
+			cad_pressed = 0;
+			make_code = 0xe071;
+		}
 		break;
 
 	default:
