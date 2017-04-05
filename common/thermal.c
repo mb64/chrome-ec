@@ -60,7 +60,7 @@ test_export_static struct thermal_config_t
 	{THERMAL_CONFIG_NO_FLAG, {THERMAL_THRESHOLD_DISABLE_ALL} },
 };
 test_export_static const int fan_speed[THERMAL_FAN_STEPS + 1] =
-	{0, 3000, 4575, 6150, 7725, -1};
+	{0, 1200, 1800, 2500, 3000, 3500, 5000};
 #endif
 
 /* Number of consecutive overheated events for each temperature sensor. */
