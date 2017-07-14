@@ -7,9 +7,9 @@
 
 #include "common.h"
 #include "console.h"
-#include "cryptolib.h"
 #include "hooks.h"
 #include "host_command.h"
+#include "sha256.h"
 #include "system.h"
 #include "task.h"
 #include "timer.h"
@@ -37,7 +37,7 @@ static const uint8_t *hash;   /* Hash, or NULL if not valid */
 static int want_abort;
 static int in_progress;
 
-static SHA256_CTX ctx;
+static struct sha256_ctx ctx;
 
 /*
  * Start computing a hash of <size> bytes of data at flash offset <offset>.
@@ -112,7 +112,7 @@ static void vboot_hash_init(void)
 #endif
 	{
 		/* Start computing the hash of RW firmware */
-		vboot_hash_start(CONFIG_FW_RW_OFF - CONFIG_FLASH_BASE,
+		vboot_hash_start(CONFIG_FW_RW_OFF,
 				 system_get_image_used(SYSTEM_IMAGE_RW),
 				 NULL, 0);
 	}
@@ -211,7 +211,7 @@ DECLARE_HOOK(HOOK_SYSJUMP, vboot_hash_preserve_state, HOOK_PRIO_DEFAULT);
 
 static int command_hash(int argc, char **argv)
 {
-	uint32_t offset = CONFIG_FW_RW_OFF - CONFIG_FLASH_BASE;
+	uint32_t offset = CONFIG_FW_RW_OFF;
 	uint32_t size = CONFIG_FW_RW_SIZE;
 	char *e;
 
