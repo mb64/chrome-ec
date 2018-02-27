@@ -39,7 +39,7 @@ static struct thermal_config_t thermal_config[TEMP_SENSOR_TYPE_COUNT] = {
 
 /* Fan speed settings. */
 /* Real max RPM is about 9300. */
-static const int fan_speed[THERMAL_FAN_STEPS + 1] = {0, 3000, 4575, 6150,
+static const int fan_speed[THERMAL_FAN_STEPS + 1] = {1200, 3000, 4575, 6150,
 						     7725, -1};
 
 /* Number of consecutive overheated events for each temperature sensor. */

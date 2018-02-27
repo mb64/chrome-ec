@@ -103,6 +103,9 @@ int pwm_get_fan_target_rpm(void)
 
 int pwm_set_fan_target_rpm(int rpm)
 {
+	/* ensure fan is enabled */
+	pwm_enable_fan(1);
+
 	/* Apply fan scaling */
 	if (rpm > 0)
 		rpm /= CPU_FAN_SCALE;
