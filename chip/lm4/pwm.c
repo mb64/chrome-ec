@@ -103,9 +103,6 @@ int pwm_get_fan_target_rpm(void)
 
 int pwm_set_fan_target_rpm(int rpm)
 {
-	/* ensure fan is enabled */
-	pwm_enable_fan(1);
-
 	/* Apply fan scaling */
 	if (rpm > 0)
 		rpm /= CPU_FAN_SCALE;
@@ -366,8 +363,9 @@ static int pwm_init(void)
 		pwm_set_keyboard_backlight(prev->kblight_percent);
 	}
 	else {
-		/* Set initial fan speed to maximum, backlight off */
-		pwm_set_fan_target_rpm(-1);
+		/* Set initial fan speed to auto, backlight off */
+		pwm_enable_fan(1);
+		pwm_set_rpm_mode(1);
 		pwm_set_keyboard_backlight(0);
 
 		/*
