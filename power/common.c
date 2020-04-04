@@ -472,11 +472,13 @@ inline int power_get_pause_in_s5(void)
 {
 	return pause_in_s5;
 }
+int power_get_pause_in_s5(void); // Add declaration so it gets linked
 
 inline void power_set_pause_in_s5(int pause)
 {
 	pause_in_s5 = pause;
 }
+void power_set_pause_in_s5(int pause); // Add declaration so it gets linked
 #endif
 
 /*****************************************************************************/

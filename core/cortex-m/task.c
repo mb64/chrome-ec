@@ -169,6 +169,7 @@ inline int in_interrupt_context(void)
 	    "lsl %0, #23  \n":"=r"(ret)); /* exception bits are the 9 LSB */
 	return ret;
 }
+int in_interrupt_context(void); // Add declaration so it gets linked
 
 inline int get_interrupt_context(void)
 {
@@ -176,6 +177,7 @@ inline int get_interrupt_context(void)
 	asm("mrs %0, ipsr \n":"=r"(ret)); /* read exception number */
 	return ret & 0x1ff;               /* exception bits are the 9 LSB */
 }
+int get_interrupt_context(void); // Add declaration so it gets linked
 
 task_id_t task_get_current(void)
 {
